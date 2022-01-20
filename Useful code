@@ -1,0 +1,41 @@
+
+#PREPARING AND CLEANING THE DATA 
+#Getting rid of columns that are not useful to our analysis;
+
+data_df = data_df.drop(['column1', 'column2'], axis=1)
+
+#Checking missing values
+missing_values = pd.DataFrame({
+    'Column': data_df.columns.values,
+    '# of missing values': data_df.isna().sum().values,
+    '% of missing values': 100 * data_df.isna().sum().values / len(data_df),
+})
+
+missing_values = missing_values[missing_values['# of missing values'] > 0]
+
+print(
+    missing_values.sort_values(
+        by='# of missing values',
+        ascending=False
+    ).reset_index(drop=True))
+    
+    
+#Replacing the missing values with the mean 
+num_with_missing = ['column1 ', 'column2']
+
+for n_col in num_with_missing:
+    data_df[n_col] = data_df[n_col].fillna(data_df[n_col].mean())
+    
+Converting to a numerical value
+data_df['column'] = data_df['column'].str.replace(r'\D', '').astype(int)
+
+
+#Converting the categorical value  into a boleean
+data_df['column'] = 0
+data_df.loc[data_df['columnname']=="categorical value",'loan'] 
+data_df.name
+
+data_df['column'].value_counts(normalize=True)
+
+data_df['column'].value_counts(normalize=True).plot.pie(labels=['Not paid','Fully paid'],autopct='%1.1f%%')
+
